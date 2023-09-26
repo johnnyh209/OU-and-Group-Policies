@@ -51,5 +51,5 @@ I then double-clicked on `Password Policy` and then double-clicked on `Maximum p
 
 ![18  Running gpupdate](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/6fae98af-8279-41d5-ad43-ab2c79dce57a)
 
-After running `gpupdate /force`, I then ran `gpresult /r` to check the current group policy configuration. However, 
+After running `gpupdate /force`, I then ran `gpresult /r` to check the current group policy configuration. However, the group policy `Password Age` was not listed. The only policy listed was the `Default Domain Policy` that applies to all of the users/OUs within the `laborg.local` domain. What I came to find out was that it usually is not a good idea to create password-related group policies specific to OUs. In a post on [spiceworks](https://community.spiceworks.com/topic/2471197-applying-group-policy), a user says that "Password settings are normally applied in the default domain GPO, and unless you start using Fine Grained Password Policies, you cannot have multiple different password policies per OU". 
 
