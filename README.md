@@ -38,7 +38,7 @@ This opened up a new window where I entered a name for the GPO. For this particu
 
 ![12  Edit GPO](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/725eedea-92e0-4b19-8935-b5a4b05bf2ee)
 
-Doing so opened up the `Group Policy Management Editor`. In this editor, I can define a group policy for Computer Configuration or User Configuration. For this attempt, I wanted to apply the password policy to Computer Configuration. I navigated through the following: `Computer Configuraiton > Policies > Windows Settings > Security Settings`. Within `Security Settings`, I double-clicked on `Account Policies`.
+Doing so opened up the `Group Policy Management Editor`. In this editor, I can define a group policy for Computer Configuration or User Configuration. For this attempt, I wanted to apply the password policy to Computer Configuration. I navigated through the following: `Computer Configuration > Policies > Windows Settings > Security Settings`. Within `Security Settings`, I double-clicked on `Account Policies`.
 
 ![13  Edit GPO Part 2](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/a257b5fe-b612-4815-9313-a383074e9143)
 
@@ -57,3 +57,22 @@ After running `gpupdate /force`, I then ran `gpresult /r` to check the current g
 
 What I came to find out was that it usually is not a good idea to create password-related group policies specific to OUs. In a post on [spiceworks](https://community.spiceworks.com/topic/2471197-applying-group-policy), a user says that "Password settings are normally applied in the default domain GPO, and unless you start using Fine Grained Password Policies, you cannot have multiple different password policies per OU". With that in mind, I started from square one again; this time I decided to create a group policy that forces screensaver after a system has been idle for a certain amount of time.
 
+**Step 1, V2:** I deleted the`Password Age` GPO, and created a new GPO for the `Employee` OU.
+
+**Step 2, V2:** I then opened up the `Group Policy Management Editor`. I will be creating the screensaver group policy in the `User Configuration`. I used the following navigation: `User Configuration > Policies > Administrative Templates > Control Panel > Personalization`. In `Personalization`, I double-clicked on `Enable screen saver`.
+
+![19  2nd Try at GPO](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/bc548d17-033e-41f7-ace1-1270a451c1d6)
+
+I then clicked on `Enabled` and clicked the `OK` button to set/confirm the change. 
+
+![20  2nd Try at GPO (Enable Screensaver)](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/540789f5-7650-41ce-9e6f-e77991d5a580)
+
+I then double-clicked on `Screen saver timeout`, clicked on `Enabled`, and then set the `Number of seconds to wait to enable the screen saver`.
+
+![21  Screen saver set](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/2cfb940e-1cd6-4c4d-94d2-12bcacb18250)
+
+Once that was done, the `Screensaver` GPO has been added to the `Employee` OU and is active.
+
+**Step 3, V2:** I return one of the `Staff` systems in the `Employee` OU to run the `gpupdate /force` and `gpresult /r` commands to check that the `Screensaver` group policy has indeed been applied to these systems. Having done everything correctly, the `Screensaver` group policy is listed under `Applied Group Policy Objects`.
+
+![23  Running gpresult](https://github.com/johnnyh209/OU-and-Group-Policies/assets/33064730/d98d560e-cdcb-4619-bcae-e89b55184228)
